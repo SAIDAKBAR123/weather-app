@@ -9,11 +9,7 @@ import {
   ListItem,
   Divider,
 } from "./components";
-
-const IMAGE_URL_RAIN =
-  "https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77701700419.jpg";
-const IMAGE_URL =
-  "https://images7.alphacoders.com/107/1079360.jpg";
+import { getCountries, getWeather } from "./utils/request";
 
 const Section = ({ children }) => {
   return <div style={{ margin: "24px 54px" }}>{children}</div>;
@@ -38,15 +34,18 @@ const WeatherInfo = () => {
 };
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [image, setImage] = useState(IMAGE_URL);
   const searchCountry = () => {};
 
+  const fetchData = async () => {
+   
+      const fetchData = await getCountries({ country: 'tashkent', limit: 10 })
+      console.log(fetchData)
+
+  }
+  
   useEffect(() => {
-    setTimeout(() => {
-      setImage(IMAGE_URL_RAIN);
-    }, 4000);
-  }, []);
+    fetchData()
+  }, [fetchData])
 
   return (
     <div>
