@@ -1,0 +1,21 @@
+.search_input {
+    width: 60%;
+    padding: 12px 0px;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.322);;
+    background-color: transparent;
+    outline: none;
+    transition: all 0.3s;
+    height: 24px;
+    font-size: 18px;
+    color: white;
+    &:hover {
+        background-color: transparent;
+    }
+    &:focus {
+        border-bottom: 1px solid rgb(255, 255, 255);;
+    }
+    &::placeholder {
+        color: rgba(255, 255, 255, 0.322);
+    }
+}

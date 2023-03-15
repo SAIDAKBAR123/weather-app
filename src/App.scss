@@ -1,42 +1,53 @@
 #root {
-  max-width: 1280px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  // padding: 1rem;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.blur_card {
+  margin-right: auto;
+  margin-left: auto;
+  width: 35%;
+  box-shadow: 0 15px 25px rgba(105, 104, 104, 0.2);
+  height: var(100vh - 1vh);
+  backdrop-filter: blur(14px);
+  background-color: rgba(87, 87, 87, 0.507);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.weather_info_class {
+  margin-left: 48px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  h1 {
+    font-size: 12rem;
+    font-weight: 400;
+    line-height: 3rem;
   }
-  to {
-    transform: rotate(360deg);
+  .weather_country_class {
+    h3 {
+      font-size: 5.5rem;
+      font-weight: 400;
+      line-height: 5rem;
+      margin: 0
+    }
+    span {
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin: 0;
+    }
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  .weather_status_class {
+    span {
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin: 0;
+    }
+    div {
+      font-size: 4rem;
+      font-weight: 400;
+      line-height: 4.6rem;
+      margin: 0;
+    }
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }
