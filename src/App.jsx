@@ -50,7 +50,7 @@ function App() {
 
   return (
     <div>
-      <Row url={image}>
+      <Row url={'https://random.imagecdn.app/2560/1440'}>
         <Col style={{ background: "", width: "65%" }}>
           <div
             style={{
