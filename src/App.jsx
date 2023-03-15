@@ -11,9 +11,9 @@ import {
 } from "./components";
 
 const IMAGE_URL_RAIN =
-  "https://bottger.com/wp-content/uploads/2017/08/Balloon-Rides.jpg";
+  "https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77701700419.jpg";
 const IMAGE_URL =
-  "https://images.unsplash.com/photo-1519692933481-e162a57d6721?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cmFpbnxlbnwwfHwwfHw%3D&w=1000&q=80";
+  "https://images7.alphacoders.com/107/1079360.jpg";
 
 const Section = ({ children }) => {
   return <div style={{ margin: "24px 54px" }}>{children}</div>;
