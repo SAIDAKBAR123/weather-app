@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import "./App.scss";
 import {
   Row,
   Col,
@@ -8,104 +6,116 @@ import {
   List,
   ListItem,
   Divider,
+  Section,
+  WeatherInfo
 } from "./components";
+import { useEffect, useState } from "react";
 import { getCountries, getWeather } from "./utils/request";
+import { REGIONS, WEATHER } from "./data";
+import "./App.scss";
 
-const Section = ({ children }) => {
-  return <div style={{ margin: "24px 54px" }}>{children}</div>;
-};
+const STYLES = {
+  container: {
+    height: "96vh",
+    padding: "10px 10px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  blur_card_container: {
+    display: "flex",
+    alignItems: "end",
+    justifyContent: "space-between",
+    gap: 2,
+  },
+}
 
-const WeatherInfo = () => {
-  return (
-    <div className="weather_info_class">
-      <h1>25°</h1>
-      <div className="weather_country_class">
-        <h3>London</h3>
-        <span>10:36 - Tuesday, 22 Oct '19</span>
-      </div>
-      <div className="weather_status_class">
-        <div>
-          ☀️
-        </div>
-        <span>sunny</span>
-      </div>
-    </div>
-  );
-};
+const App = () => {
+  const [searchedValue, setSearchedValue] = useState("");
+  const [weatherInfo, setWeatherInfo] = useState({});
 
-function App() {
-  const searchCountry = () => {};
+  const searchCountry = async (country) => {
+    const fetchData = await getCountries({ country, limit: 10 });
+    if (fetchData.length === 0) {
+      return alert("No country is available with this");
+    }
+    searchWeather({ lat: fetchData[0].lat, long: fetchData[0].lon });
+  };
 
-  const fetchData = async () => {
-   
-      const fetchData = await getCountries({ country: 'tashkent', limit: 10 })
-      console.log(fetchData)
+  const searchWeather = async (location) => {
+    const getWeatherApi = await getWeather(location);
+    console.log('getWeatherApi', getWeatherApi)
+    setWeatherInfo(getWeatherApi);
+  };
 
-  }
-  
   useEffect(() => {
-    fetchData()
-  }, [fetchData])
+    searchCountry("Tashkent");
+  }, [])
 
+  const getCode = () => {
+    if (weatherInfo?.weather[0]?.id === 800) {
+      return "800"
+    }
+    if (weatherInfo?.weather[0]?.id) {
+      console.log((String(weatherInfo?.weather[0]?.id)?.[0]))
+      return (String(weatherInfo?.weather[0]?.id)?.[0]);
+    }
+    return 1;
+  }
   return (
     <div>
-      <Row url={'https://random.imagecdn.app/2560/1440'}>
-        <Col style={{ background: "", width: "65%" }}>
-          <div
-            style={{
-              height: "96vh",
-              padding: "10px 10px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-            }}
-          >
+      <Row url={weatherInfo.name ? WEATHER.get(getCode()): WEATHER.get('1')}>
+        <Col style={{ background: "", width: "70%" }}>
+          <div style={STYLES.container}>
             <h4 style={{ marginLeft: 14 }}>The.Weather</h4>
-            <WeatherInfo
-              value={{
-                temperature: "26",
-                country: "London",
-                date: new Date(),
-                weather: "sunny",
-              }}
-            />
+            {weatherInfo?.name && <WeatherInfo weather={weatherInfo} />}
           </div>
         </Col>
         <Col className={"blur_card"}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "end",
-              justifyContent: "space-between",
-              gap: 2,
-            }}
-          >
+          <div style={STYLES.blur_card_container}>
             <Input
               style={{ margin: "0 auto" }}
               placeholder="Another Location"
+              onChange={(e) => setSearchedValue(e.target.value)}
+              onKeyPress={(e) => {
+                e.key === "Enter" ? searchCountry(searchedValue) : null;
+              }}
             ></Input>
-            <ButtonSearch onClick={searchCountry} />
+            <ButtonSearch onClick={() => searchCountry(searchedValue)} />
           </div>
           <Section>
             <List>
-              <ListItem>Toshkent</ListItem>
-              <ListItem>Samarqand</ListItem>
-              <ListItem>Urganch</ListItem>
-              <ListItem>Navoiy</ListItem>
-              <ListItem>Nukus</ListItem>
+              {REGIONS.map((el) => (
+                <ListItem
+                  key={el.id}
+                  onClick={() => searchWeather({ lat: el.lat, long: el.lng })}
+                >
+                  {el.name}
+                </ListItem>
+              ))}
             </List>
           </Section>
           <Section>
             <Divider />
           </Section>
-          <Section>
-            <List title="Weather Deatail">
-              <ListItem value={"12%"}>Cloudy</ListItem>
-              <ListItem value={"78%"}>Humanity</ListItem>
-              <ListItem value={"1km/h"}>Wind</ListItem>
-              <ListItem value={"0mm"}>Rain</ListItem>
-            </List>
-          </Section>
+          {weatherInfo?.clouds && (
+            <Section>
+              <List title="Weather Deatail">
+                <ListItem value={weatherInfo?.clouds?.all + "%"}>
+                  Cloudy
+                </ListItem>
+                <ListItem value={weatherInfo?.main?.humidity + "%"}>
+                  Humidity
+                </ListItem>
+                <ListItem value={weatherInfo?.wind?.speed + " km/h"}>
+                  Wind
+                </ListItem>
+                <ListItem value={weatherInfo?.main?.pressure + " Pha"}>
+                  Pressure
+                </ListItem>
+              </List>
+            </Section>
+          )}
         </Col>
       </Row>
     </div>

@@ -9,9 +9,9 @@ export const List = ({ title = '', children }) => {
     )
 }
 
-export const ListItem = ({ children, value }) => {
+export const ListItem = ({ children, value, ...props }) => {
     return (
-        <div style={{ cursor: 'pointer', padding: '14px 0px', display:"flex", justifyContent: 'space-between', alignItems: 'center'}}>
+        <div style={{ cursor: 'pointer', padding: '14px 0px', display:"flex", justifyContent: 'space-between', alignItems: 'center'}} {...props}>
             <div style={{ fontSize: '18px', fontWeight: '500', color: '#dfdfdf' }}>{children}</div>
             <div style={{ color: 'white', fontWeight: '500'}}>{value}</div>
         </div>
